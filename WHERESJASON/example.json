@@ -1,0 +1,65 @@
+{
+    "bodyRegions": {
+      "CNS": {
+        "description": "Central Nervous System problems",
+        "questions": [
+          {
+            "id": 1,
+            "question": "Do you experience frequent headaches?",
+            "type": "boolean"
+          },
+          {
+            "id": 2,
+            "question": "Do you have difficulty concentrating?",
+            "type": "boolean"
+          },
+          {
+            "id": 3,
+            "question": "Have you experienced any seizures?",
+            "type": "boolean"
+          }
+        ]
+      },
+      "RespiratorySystem": {
+        "description": "Respiratory problems",
+        "questions": [
+          {
+            "id": 1,
+            "question": "Do you have difficulty breathing?",
+            "type": "boolean"
+          },
+          {
+            "id": 2,
+            "question": "Do you experience frequent coughing?",
+            "type": "boolean"
+          },
+          {
+            "id": 3,
+            "question": "Have you experienced chest pain while breathing?",
+            "type": "boolean"
+          }
+        ]
+      },
+      "CardiovascularSystem": {
+        "description": "Heart and blood vessel problems",
+        "questions": [
+          {
+            "id": 1,
+            "question": "Do you have chest pain?",
+            "type": "boolean"
+          },
+          {
+            "id": 2,
+            "question": "Do you feel fatigued frequently?",
+            "type": "boolean"
+          },
+          {
+            "id": 3,
+            "question": "Have you experienced swelling in your feet or ankles?",
+            "type": "boolean"
+          }
+        ]
+      }
+    }
+  }
+  
