@@ -4,12 +4,14 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.TreeItem;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class WheresJasonApplication extends Application {
 
@@ -27,18 +29,22 @@ public class WheresJasonApplication extends Application {
 
         WheresJasonController controller = fxmlLoader.getController();
 
-        String filePath = "D:\\Code\\WheresJason\\WheresJason\\src\\main\\java\\io\\github\\clupthegreat\\wheresjason\\sampledata_simple.json";
-        TreeViewCreator treeViewCreator = new TreeViewCreator(filePath);
-        TreeItem<String> rootItem = treeViewCreator.createTreeItemRoot();
-        ArrayList<String> currentLevel = new ArrayList<>();
-        currentLevel.add(rootItem.getValue());
-        treeViewCreator.fillChildren(currentLevel, rootItem);
-        controller.setTree_view_area(rootItem);
+//        String filePath = "D:\\Code\\WheresJason\\WheresJason\\src\\main\\java\\io\\github\\clupthegreat\\wheresjason\\sampledata_simple.json";
+//        TreeViewCreator treeViewCreator = new TreeViewCreator(filePath);
+//        TreeItem<String> rootItem = treeViewCreator.createTreeItemRoot();
+//        ArrayList<String> currentLevel = new ArrayList<>();
+//        currentLevel.add(rootItem.getValue());
+//        treeViewCreator.fillChildren(currentLevel, rootItem);
+//        controller.setTree_view_area(rootItem);
         stage.setScene(scene);
 
         // Disable resizing
         stage.setResizable(false);
         stage.setTitle("WheresJason");
+        Image icon = new Image(Objects.requireNonNull(getClass().getResource("/icon.png")).toExternalForm());
+
+        stage.getIcons().add(icon);
+
         stage.show();
     }
 

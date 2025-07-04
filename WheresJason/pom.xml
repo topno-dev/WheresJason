@@ -57,7 +57,7 @@
             <!-- Default configuration for running with: mvn clean javafx:run -->
             <id>default-cli</id>
             <configuration>
-              <mainClass>io.github.clupthegreat.wheresjason/io.github.clupthegreat.wheresjason.HelloApplication</mainClass>
+              <mainClass>io.github.clupthegreat.wheresjason/io.github.clupthegreat.wheresjason.WheresJasonApplication</mainClass>
               <launcher>app</launcher>
               <jlinkZipName>app</jlinkZipName>
               <jlinkImageName>app</jlinkImageName>
