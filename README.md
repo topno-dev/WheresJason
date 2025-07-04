@@ -28,7 +28,23 @@
 
 ---
 
-## Download 
+## 💾 Download
+
+### 🚀 Quick Start (Recommended)
+
+1. **Download WheresJason**
+   - Go to the [Releases](https://github.com/topno-dev/WheresJason/releases) page
+   - Download the latest `WheresJason.exe` or `WheresJason.jar` file
+   - Extract it to your desired location
+
+2. **Download Java 24**
+   - Download Java 24 from Oracle: [jdk-24_windows-x64_bin.exe](https://download.oracle.com/java/24/latest/jdk-24_windows-x64_bin.exe)
+   - Run the installer and follow the installation wizard
+
+3. **Run WheresJason**
+   - Navigate to the folder where you downloaded `WheresJason.exe` or `WheresJason.jar`
+   - Double-click `WheresJason.exe` or `WheresJason.jar`
+   - Start exploring your JSON files! 🎉
 
 ## 🔧 Do it on Your Own
 
