@@ -2,7 +2,8 @@
 
 **WheresJason** is a powerful and minimal JavaFX application for **viewing, editing, and navigating JSON files** in a user-friendly tree structure.
 
-![App Banner](<!-- ADD BANNER IMAGE HERE -->)
+![Banner](https://github.com/user-attachments/assets/7c539157-061d-4e57-a840-8d440dec64c0)
+
 
 ---
 
@@ -21,8 +22,8 @@
 
 ### ✅ Prerequisites
 
-- **Java 17+**
-- **JavaFX 17 or 21**
+- **Java 24+**
+- **JavaFX 24**
 - [Gson library](https://github.com/google/gson)
 
 ---
