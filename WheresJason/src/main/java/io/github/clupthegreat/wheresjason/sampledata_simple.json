@@ -1,0 +1,9 @@
+{
+  "id": 101,
+  "name": "Rohan",
+  "age": 25,
+  "email": "rohan@example.com",
+  "isActive": true,
+  "salary": 55000.75,
+  "leave": null
+}

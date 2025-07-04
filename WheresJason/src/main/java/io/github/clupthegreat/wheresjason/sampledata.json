@@ -3,7 +3,7 @@
   "window": {
     "title": "Sample Konfabulator Widget",
     "name": "main_window",
-    "width": 500,
+    "width": 501,
     "height": 500
   },
   "image": {

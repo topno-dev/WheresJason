@@ -6,16 +6,19 @@ import javafx.scene.control.*;
 
 public class WheresJasonController {
     @FXML
+    private Menu Json_controls_menu;
+
+    @FXML
     private Menu about;
 
     @FXML
     private MenuItem close_app;
 
     @FXML
-    private Menu collapse_all;
+    private MenuItem collapse_all;
 
     @FXML
-    private Menu expand_all;
+    private MenuItem expand_all;
 
     @FXML
     private TextArea json_area;
@@ -39,7 +42,7 @@ public class WheresJasonController {
     private SplitPane split_pane_panel;
 
     @FXML
-    private TreeView<?> tree_view_area;
+    private TreeView<String> tree_view_area;
 
     @FXML
     private MenuItem tutorial_help_button;
@@ -51,12 +54,14 @@ public class WheresJasonController {
 
     @FXML
     void collapse_all_tree(ActionEvent event) {
-
+        TreeItem<String> rootItem = tree_view_area.getRoot();
+        collapseAll(rootItem);
     }
 
     @FXML
-    void expand_all_tree(ActionEvent event) {
-
+    void expand_all_tree(ActionEvent event){
+        TreeItem<String> rootItem = tree_view_area.getRoot();
+        expandAll(rootItem);
     }
 
     @FXML
@@ -87,6 +92,31 @@ public class WheresJasonController {
     @FXML
     void start_tutorial_help(ActionEvent event) {
 
+    }
+
+
+    public void setTree_view_area(TreeItem<String> rootItem){
+        tree_view_area.setRoot(rootItem);
+        rootItem.setExpanded(true);
+
+    }
+
+    private void expandAll(TreeItem<String> item){
+        if (item != null && !item.isLeaf()){
+            item.setExpanded(true);
+            for (TreeItem<String> child: item.getChildren()){
+                expandAll(child);
+            }
+        }
+    }
+
+    private void collapseAll(TreeItem<String> item){
+        if (item!=null  && !item.isLeaf()){
+            item.setExpanded(false);
+            for (TreeItem<String> child: item.getChildren()){
+                collapseAll(child);
+            }
+        }
     }
 
 }

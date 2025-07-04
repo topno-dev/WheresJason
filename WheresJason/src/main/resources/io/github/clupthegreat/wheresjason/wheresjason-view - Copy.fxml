@@ -26,9 +26,9 @@
               <MenuItem fx:id="tutorial_help_button" mnemonicParsing="false" onAction="#start_tutorial_help" text="Help Items" />
             </items>
           </Menu>
-          <Menu fx:id="Json_controls_menu" mnemonicParsing="false" text="JSON Controls">
+          <Menu fx:id="collapse_all" mnemonicParsing="false" onAction="#collapse_all_tree" text="JSON Controls">
                <items>
-                  <MenuItem fx:id="expand_all" mnemonicParsing="false" onAction="#expand_all_tree" text="Expand All" />
+                  <MenuItem fx:id="expand_all" mnemonicParsing="false" onAction="#collapse_all_tree" text="Expand All" />
                   <MenuItem fx:id="collapse_all" mnemonicParsing="false" onAction="#collapse_all_tree" text="Collapse All" />
                </items></Menu>
             <Menu fx:id="about" mnemonicParsing="false" onAction="#show_about" text="About">
