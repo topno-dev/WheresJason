@@ -30,10 +30,6 @@
                   <MenuItem fx:id="expand_all" mnemonicParsing="false" onAction="#expand_all_tree" text="Expand All" />
                   <MenuItem fx:id="collapse_all" mnemonicParsing="false" onAction="#collapse_all_tree" text="Collapse All" />
                </items></Menu>
-            <Menu fx:id="about" mnemonicParsing="false" onAction="#show_about" text="About">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="About" />
-               </items></Menu>
         </menus>
       </MenuBar>
       <SplitPane fx:id="split_pane_panel" dividerPositions="0.5" layoutX="450.0" layoutY="85.0" prefHeight="663.0" prefWidth="1100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">

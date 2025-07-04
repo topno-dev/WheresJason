@@ -11,7 +11,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class WheresJasonController {
 
@@ -23,9 +25,6 @@ public class WheresJasonController {
 
     @FXML
     private Menu Json_controls_menu;
-
-    @FXML
-    private Menu about;
 
     @FXML
     private MenuItem close_app;
@@ -142,14 +141,14 @@ public class WheresJasonController {
         }
     }
 
-    @FXML
-    void show_about(ActionEvent event) {
-
-    }
 
     @FXML
     void start_tutorial_help(ActionEvent event) {
-
+        try {
+            java.awt.Desktop.getDesktop().browse(new java.net.URI("https://github.com/topno-dev/WheresJason"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -185,6 +184,12 @@ public class WheresJasonController {
     public void initialize() {
         json_area.setOnKeyReleased(event -> {
             String jsonContent = json_area.getText();
+
+            Set<String> expandedPaths = new HashSet<>();
+            if (tree_view_area.getRoot() != null) {
+                expandedPaths = getExpandedPaths(tree_view_area.getRoot());
+            }
+
             writeJsonFile("tempFiles/temp.json", jsonContent);
 
             try {
@@ -194,7 +199,13 @@ public class WheresJasonController {
                 currentLevel.add(rootItem.getValue());
                 creator.fillChildren(currentLevel, rootItem);
 
+                applyExpandedPaths(rootItem, "", expandedPaths);
+
                 tree_view_area.setRoot(rootItem);
+
+                searchResults.clear();
+                currentSearchIndex = -1;
+//                search_tree_text_field.clear();
             } catch (Exception e) {
                 // Likely invalid JSON while typing, ignore silently
             }
@@ -292,5 +303,31 @@ public class WheresJasonController {
         }
     }
 
+    private Set<String> getExpandedPaths(TreeItem<String> root) {
+        Set<String> expandedPaths = new HashSet<>();
+        collectExpandedPaths(root, "", expandedPaths);
+        return expandedPaths;
+    }
+
+    private void collectExpandedPaths(TreeItem<String> item, String path, Set<String> expandedPaths) {
+        String currentPath = path.isEmpty() ? item.getValue() : path + "." + item.getValue();
+        if (item.isExpanded()) {
+            expandedPaths.add(currentPath);
+        }
+        for (TreeItem<String> child : item.getChildren()) {
+            collectExpandedPaths(child, currentPath, expandedPaths);
+        }
+    }
+
+    private void applyExpandedPaths(TreeItem<String> item, String path, Set<String> expandedPaths) {
+        String currentPath = path.isEmpty() ? item.getValue() : path + "." + item.getValue();
+        if (expandedPaths.contains(currentPath)) {
+            item.setExpanded(true);
+        }
+
+        for (TreeItem<String> child : item.getChildren()) {
+            applyExpandedPaths(child, currentPath, expandedPaths);
+        }
+    }
 
 }
