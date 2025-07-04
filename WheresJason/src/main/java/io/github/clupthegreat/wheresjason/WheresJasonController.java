@@ -1,10 +1,26 @@
 package io.github.clupthegreat.wheresjason;
 
+import com.google.gson.JsonObject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.FileChooser;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 
 public class WheresJasonController {
+
+    private final List<TreeItem<String>> searchResults = new ArrayList<>();
+    private int currentSearchIndex = -1;
+    private final String tempDir = System.getProperty("user.dir") + File.separator + "tempFiles";
+    private final String tempFilePath = tempDir + File.separator + "live_edit.json";
+
+
     @FXML
     private Menu Json_controls_menu;
 
@@ -26,8 +42,8 @@ public class WheresJasonController {
     @FXML
     private Button next_search_btn;
 
-    @FXML
-    private MenuItem open_json;
+//    @FXML
+//    private MenuItem open_json;
 
     @FXML
     private Button prev_search_btn;
@@ -48,6 +64,11 @@ public class WheresJasonController {
     private MenuItem tutorial_help_button;
 
     @FXML
+    private Button load_text;
+
+
+
+    @FXML
     void close_program(ActionEvent event) {
 
     }
@@ -66,22 +87,59 @@ public class WheresJasonController {
 
     @FXML
     void next_search_click(ActionEvent event) {
+        String searchItem = search_tree_text_field.getText().trim();
+        if (searchItem.isEmpty()) return;
 
+        // If new search or query changed, reset results
+        if (searchResults.isEmpty() ||
+                currentSearchIndex == -1 ||
+                !searchResults.get(currentSearchIndex).getValue().equalsIgnoreCase(searchItem)) {
+
+            searchResults.clear();
+            TreeItem<String> root = tree_view_area.getRoot();
+            collectMatchingItems(root, searchItem, searchResults);
+            currentSearchIndex = -1;
+        }
+
+        if (!searchResults.isEmpty()) {
+            currentSearchIndex = (currentSearchIndex + 1) % searchResults.size();
+            TreeItem<String> match = searchResults.get(currentSearchIndex);
+            expandPath(match);
+            tree_view_area.getSelectionModel().select(match);
+            tree_view_area.scrollTo(tree_view_area.getRow(match));
+        } else {
+            System.out.println("No matches found for: " + searchItem);
+        }
     }
 
-    @FXML
-    void open_json_file(ActionEvent event) {
-
-    }
+//    @FXML
+//    void open_json_file(ActionEvent event) {
+//        load_json_text();
+//    }
 
     @FXML
     void prev_search_click(ActionEvent event) {
+        String searchItem = search_tree_text_field.getText().trim();
+        if (searchItem.isEmpty()) return;
 
+        if (searchResults.isEmpty()) return;
+
+        currentSearchIndex = (currentSearchIndex - 1 + searchResults.size()) % searchResults.size();
+        TreeItem<String> match = searchResults.get(currentSearchIndex);
+        expandPath(match);
+        tree_view_area.getSelectionModel().select(match);
+        tree_view_area.scrollTo(tree_view_area.getRow(match));
     }
 
     @FXML
     void save_json_file(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON Files", "*.json"));
+        File file = fileChooser.showSaveDialog(null);
 
+        if (file != null) {
+            writeJsonFile(file.getAbsolutePath(), json_area.getText());
+        }
     }
 
     @FXML
@@ -92,6 +150,65 @@ public class WheresJasonController {
     @FXML
     void start_tutorial_help(ActionEvent event) {
 
+    }
+
+    @FXML
+    void load_json_text(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON Files", "*.json"));
+        File file = fileChooser.showOpenDialog(null);
+
+        if (file != null) {
+            try {
+                String content = Files.readString(file.toPath());
+                json_area.setText(content);
+
+                // Save to temp file
+                writeJsonFile("tempFiles/temp.json", content);
+
+                // Create tree from temp file
+                TreeViewCreator creator = new TreeViewCreator("tempFiles/temp.json");
+                TreeItem<String> rootItem = creator.createTreeItemRoot();
+                ArrayList<String> currentLevel = new ArrayList<>();
+                currentLevel.add(rootItem.getValue());
+                creator.fillChildren(currentLevel, rootItem);
+
+                tree_view_area.setRoot(rootItem);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @FXML
+    public void initialize() {
+        json_area.setOnKeyReleased(event -> {
+            String jsonContent = json_area.getText();
+            writeJsonFile("tempFiles/temp.json", jsonContent);
+
+            try {
+                TreeViewCreator creator = new TreeViewCreator("tempFiles/temp.json");
+                TreeItem<String> rootItem = creator.createTreeItemRoot();
+                ArrayList<String> currentLevel = new ArrayList<>();
+                currentLevel.add(rootItem.getValue());
+                creator.fillChildren(currentLevel, rootItem);
+
+                tree_view_area.setRoot(rootItem);
+            } catch (Exception e) {
+                // Likely invalid JSON while typing, ignore silently
+            }
+        });
+    }
+
+    public void writeJsonFile(String filePath, String content) {
+        try {
+            FileWriter writer = new FileWriter(filePath);
+            writer.write(content);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -118,5 +235,62 @@ public class WheresJasonController {
             }
         }
     }
+
+    private TreeItem<String> searchTree(String treeItemValue){
+        TreeItem<String> rootItem = tree_view_area.getRoot();
+        if (rootItem == null) return null;
+        return searchRecursive(rootItem, treeItemValue);
+    }
+
+    private TreeItem<String> searchRecursive(TreeItem<String> rootItem, String target){
+        if (rootItem.getValue().equals(target)){
+            return rootItem;
+        }
+
+        for (TreeItem<String> child: rootItem.getChildren()){
+            TreeItem<String> res = searchRecursive(child,target);
+            if (res != null) return res;
+        }
+        return null;
+    }
+
+    public void selectAndScrollTo(String treeItemValue){
+        TreeItem<String> found = searchTree(treeItemValue);
+        if (found != null){
+            expandPath(found);
+            tree_view_area.getSelectionModel().select(found);
+            tree_view_area.scrollTo(tree_view_area.getRow(found));
+        } else {
+            System.out.println("Not found");
+        }
+    }
+
+    private void expandPath(TreeItem<String> item){
+        TreeItem<String> parent = item.getParent();
+        while (parent != null){
+            parent.setExpanded(true);
+            parent = parent.getParent();
+        }
+    }
+
+    private void collectMatchingItems(TreeItem<String> item, String query, List<TreeItem<String>> results) {
+        if (item.getValue().equalsIgnoreCase(query)) {
+            results.add(item);
+        }
+        for (TreeItem<String> child : item.getChildren()) {
+            collectMatchingItems(child, query, results);
+        }
+    }
+
+    private void createOrUpdateTempJson(String content) {
+        try {
+            File dir = new File(tempDir);
+            if (!dir.exists()) dir.mkdirs();
+            writeJsonFile(tempFilePath, content);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

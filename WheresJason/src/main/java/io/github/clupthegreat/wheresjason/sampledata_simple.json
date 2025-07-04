@@ -3,6 +3,7 @@
   "name": "Rohan",
   "age": 25,
   "email": "rohan@example.com",
+  "email2": "rohan@example.com",
   "isActive": true,
   "salary": 55000.75,
   "leave": null

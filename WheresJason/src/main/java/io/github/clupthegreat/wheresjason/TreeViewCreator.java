@@ -83,7 +83,7 @@ public class TreeViewCreator {
 
             if (value == null || value.isJsonNull()) {
                 // Handle null values explicitly
-                TreeItem<String> nullItem = new TreeItem<>("Value: null");
+                TreeItem<String> nullItem = new TreeItem<>("null");
                 childItem.getChildren().add(nullItem);
             } else if (value.isJsonObject()) {
                 // Recurse into nested JsonObject
@@ -92,7 +92,7 @@ public class TreeViewCreator {
                 fillChildren(nextLevel, childItem);
             } else {
                 // Primitive value (String, Number, Boolean)
-                TreeItem<String> valueItem = new TreeItem<>("Value: " + value.getAsString());
+                TreeItem<String> valueItem = new TreeItem<>(value.getAsString());
                 childItem.getChildren().add(valueItem);
             }
         }

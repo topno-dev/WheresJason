@@ -58,5 +58,6 @@ public class JSONManager {
             System.err.println("Invalid JSON Format");
         }
     }
+
 }
 

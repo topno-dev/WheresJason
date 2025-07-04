@@ -16,7 +16,6 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                  <MenuItem fx:id="open_json" mnemonicParsing="false" onAction="#open_json_file" text="Open JSON " />
                   <MenuItem fx:id="save_json" mnemonicParsing="false" onAction="#save_json_file" text="Save JSON" />
               <MenuItem fx:id="close_app" mnemonicParsing="false" onAction="#close_program" text="Close" />
             </items>
@@ -50,6 +49,7 @@
                   <TextField fx:id="search_tree_text_field" layoutX="103.0" layoutY="2.0" AnchorPane.bottomAnchor="609.0" AnchorPane.leftAnchor="103.0" AnchorPane.rightAnchor="294.0" AnchorPane.topAnchor="2.0" />
                   <Button fx:id="prev_search_btn" layoutX="316.0" layoutY="2.0" mnemonicParsing="false" onAction="#prev_search_click" text="Prev" AnchorPane.bottomAnchor="609.0" AnchorPane.leftAnchor="316.0" AnchorPane.rightAnchor="191.0" AnchorPane.topAnchor="2.0" />
                   <Button fx:id="next_search_btn" layoutX="382.0" layoutY="2.0" mnemonicParsing="false" onAction="#next_search_click" prefHeight="25.0" prefWidth="54.0" text="Next" AnchorPane.bottomAnchor="609.0" AnchorPane.leftAnchor="382.0" AnchorPane.rightAnchor="110.0" AnchorPane.topAnchor="2.0" />
+                  <Button fx:id="load_text" layoutX="25.0" layoutY="2.0" mnemonicParsing="false" onAction="#load_json_text" text="Load" />
                </children>
             </AnchorPane>
         </items>
